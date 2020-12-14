@@ -73,25 +73,17 @@ repositories {
 
 // declare the dependencies for your production and test code
 dependencies {
-    implementation "org.scala-lang:scala-library:${scalaLibrary}"
 
-    // --------------------------------------------------------------
-    // Compile-time dependencies that should NOT be part of the
-    // shadow jar and are provided in the lib folder of Flink
-    // --------------------------------------------------------------
-    implementation "org.apache.flink:flink-streaming-scala_${scalaBinaryVersion}:${flinkVersion}"
-    implementation "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}"
+    //we are using compile, for shadow pluging to copy the dependencies into the jar
+    compile "org.scala-lang:scala-library:${scalaLibrary}"
 
-    // --------------------------------------------------------------
-    // Dependencies that should be part of the shadow jar, e.g.
-    // connectors. These must be in the flinkShadowJar configuration!
-    // --------------------------------------------------------------
-    //flinkShadowJar "org.apache.flink:flink-connector-kafka_${scalaBinaryVersion}:${flinkVersion}"
+    compile "org.apache.flink:flink-streaming-scala_${scalaBinaryVersion}:${flinkVersion}"
+    compile "org.apache.flink:flink-clients_${scalaBinaryVersion}:${flinkVersion}"
 
-    implementation "com.typesafe.scala-logging:scala-logging_${scalaBinaryVersion}:3.9.2"
-    implementation "log4j:log4j:${log4jVersion}"
-    implementation "org.slf4j:slf4j-api:${slf4jVersion}"
-    implementation "org.slf4j:slf4j-log4j12:${slf4jVersion}"
+    compile "com.typesafe.scala-logging:scala-logging_${scalaBinaryVersion}:3.9.2"
+    compile "log4j:log4j:${log4jVersion}"
+    compile "org.slf4j:slf4j-api:${slf4jVersion}"
+    compile "org.slf4j:slf4j-log4j12:${slf4jVersion}"
 
     testImplementation "org.apache.flink:flink-test-utils_${scalaBinaryVersion}:${flinkVersion}"
     testImplementation "org.scalatest:scalatest_${scalaBinaryVersion}:${scalaTest}"
@@ -101,24 +93,14 @@ dependencies {
     testImplementation "com.47deg:scalacheck-toolbox-datetime_${scalaBinaryVersion}:${scalacheckDatetime}"
 
     scalaCompilerPlugin 'org.scalamacros:paradise_2.11.12:2.1.1'
-
-    // Add test dependencies here.
-    // testCompile "junit:junit:4.12"
 }
 
 compileScala {
     scalaCompileOptions.optimize = true
     scalaCompileOptions.additionalParameters = ['-target:jvm-1.8', '-Ybackend:GenBCode', '-feature',
                                                 '-language:postfixOps', '-language:implicitConversions', '-language:higherKinds',
-                                                "-Xplugin:" + configurations.scalaCompilerPlugin.asPath
-    ]
+                                                "-Xplugin:" + configurations.scalaCompilerPlugin.asPath]
 }
-
-/*tasks.withType(ScalaCompile) {
-    scalaCompileOptions.additionalParameters = [
-            "-Xplugin:" + configurations.scalaCompilerPlugin.asPath
-    ]
-}*/
 
 // make compileOnly dependencies available for tests:
 sourceSets {

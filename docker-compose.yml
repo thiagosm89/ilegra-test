@@ -4,11 +4,14 @@ services:
     image: flink:1.11.0-scala_2.11
     ports:
       - "8081:8081"
-    command: jobmanager
+    command: standalone-job --job-classname ilegra.ApplicationJob
+    volumes:
+      - /home/thiago/projects/ilegra-test/build/libs:/opt/flink/usrlib
     environment:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
+        parallelism.default: 2
 
   taskmanager:
     image: flink:1.11.0-scala_2.11
@@ -16,8 +19,11 @@ services:
       - jobmanager
     command: taskmanager
     scale: 1
+    volumes:
+      - /home/thiago/projects/ilegra-test/build/libs:/opt/flink/usrlib
     environment:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
+        parallelism.default: 2
