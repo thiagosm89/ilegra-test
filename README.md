@@ -19,7 +19,7 @@ Se houver mais de um vendedor sem nenhuma venda, ou seja, que empatem no critér
 
 ## Pré-requisitos
 1. JDK 1.8
-
+2. Scala 2.11
 
 ## Estrutura
 
