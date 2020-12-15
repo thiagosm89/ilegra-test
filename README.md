@@ -1,9 +1,10 @@
 ## Projeto
 
-Este projeto tem como objetivo processar arquivos de um diretório de entrada de forma contínua e apresentar um relatório de saída em formato de arquivo em outro diretório.
-<br/> Foi utilizazado para o desenvolvimento Scala como linguagem e Flink como framework. 
-Ambos foram adotados, pois o desafio deixa de livre escolha. 
-A escolha da linguagem Scala está relacionado a deixa o código menos verboso e também permite trabalhar melhor com o paradigma funcional.
+Este projeto tem como objetivo processar arquivos de um diretório de entrada de forma contínua e apresentar um relatório de saída em formato de arquivo em outro diretório.<br/>
+O arquivo que representa o relatório, diretório de output, terá o mesmo nome do arquivo que foi lido na entrada, então se faz necessário dois diretórios distintos.<br/>
+Foi utilizado para o desenvolvimento Scala como linguagem e Flink como framework. 
+Ambos foram adotados, pois o desafio deixa de livre escolha. <br/>
+A escolha da linguagem Scala está relacionado a deixa o código menos verboso e também permite trabalhar melhor com o paradigma funcional.<br/>
 O framework flink trabalha também com JAVA, mas daria muitas linhas de códigos a mais se tivesse optado por este caminho.    
 
 ## Relatórios emitidos na saída
@@ -16,6 +17,8 @@ Se houver mais de uma venda que empate neste critério, apenas um dos ids serão
 ##### 4. O pior vendedor
 Esse relatório levará em consideração também os vendedores que não tiveram nenhuma venda, ou seja, vendedores que não possuem nenhuma linha com o identificador 003.<br/>
 Se houver mais de um vendedor sem nenhuma venda, ou seja, que empatem no critério de pior vendedor, apenas um deles será mostrado na saída, devido o requisito estar no singular e não no plural. 
+
+## Funcionamento
 
 ## Pré-requisitos
 1. JDK 1.8
