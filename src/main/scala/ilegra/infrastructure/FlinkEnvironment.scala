@@ -15,12 +15,12 @@ object FlinkEnvironment {
 
   def environment(flinkConfig: FlinkConfig): StreamExecutionEnvironment = {
 
-    val env: StreamExecutionEnvironment = if (ApplicationVMOption.isDevelopmentMode)
+    val env: StreamExecutionEnvironment = if (Environment.isDevelopmentMode)
       StreamExecutionEnvironment.createLocalEnvironmentWithWebUI()
     else
       StreamExecutionEnvironment.getExecutionEnvironment
 
-    if(ApplicationVMOption.isDevelopmentMode) {
+    if(Environment.isDevelopmentMode) {
       env.setStateBackend(new FsStateBackend(flinkConfig.filePathCheckpoint))
     }
 

@@ -89,9 +89,11 @@ trait ConfigurationOps {
 
   def load(): TypesafeConfig = loadConf().resolve()
 
-  private def loadConf(): TypesafeConfig = ConfigFactory.load(
-    ApplicationVMOption.getFileConfig.getOrElse("application.conf")
-  )
+  private def loadConf(): TypesafeConfig = ConfigFactory.load(getApplicationConf)
+
+  private def getApplicationConf = {
+    if (Environment.isDocker) "application-docker.conf" else "application.conf"
+  }
 }
 
 object Configuration extends ConfigurationOps

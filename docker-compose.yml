@@ -6,21 +6,27 @@ services:
       - "8081:8081"
     command: standalone-job --job-classname ilegra.ApplicationJob
     volumes:
-      - /home/thiago/projects/ilegra-test/build/libs:/opt/flink/usrlib
+      - ./build/libs:/opt/flink/usrlib
     environment:
       - |
         FLINK_PROPERTIES=
         jobmanager.rpc.address: jobmanager
         parallelism.default: 2
+      - ENVIRONMENT=docker
 
   taskmanager:
+    user: root
     image: flink:1.11.0-scala_2.11
     depends_on:
       - jobmanager
     command: taskmanager
+    entrypoint: "/tmp/init/docker-entrypoint.sh"
     scale: 1
     volumes:
-      - /home/thiago/projects/ilegra-test/build/libs:/opt/flink/usrlib
+      - ${IN_DIR}:/tmp/in
+      - ${OUT_DIR}:/tmp/out
+      - ./build/libs:/opt/flink/usrlib
+      - ./docker/init:/tmp/init
     environment:
       - |
         FLINK_PROPERTIES=

@@ -20,13 +20,6 @@ Se houver mais de um vendedor sem nenhuma venda, ou seja, que empatem no critér
 ## Pré-requisitos
 1. JDK 1.8
 
-## VM options
-O projeto fornece algumas VM Options que podem ser utilizadas.
-
-1. `-Dfile.config=application-custom.conf` - Permite definir um arquivo de conf customizado no momento que estamos desenvolvendo, para não mexer no que é utilizado pelo projeto no ambiente produtivo.
-2. `-Ddevelopment.mode=[true|false]` - Permite acionar alguns recursos no projeto que só serão habilitados em no momento de desenvolvimento.
-
-Olhar o arquivo `ilegra.infrastructure.ApplicationVMOption` para mais informações.
 
 ## Estrutura
 
@@ -47,3 +40,23 @@ Foram realizados os testes unitários das partes mais críticas do projeto, onde
 
 Foi desenvolvido um gerador de arquivo no formato solicitado no desafio, para que fosse fácil testar a aplicação.<br/>
 Olhar arquivo: `ilegra.GenerateFileMock`
+
+## Docker
+O projeto está preparado para rodar o flink pelo docker, para isso são necessários ajustar algumas configurações:
+1. Ajustar os volumes para os diretórios que conterá os arquivos de entrada e saída.<br/> 
+Para não ter que editar o `docker-compose.yml`, basta apenas abrir o arquivo `start-docker.sh` e setar cada um dos diretórios.
+2. Após executar o comando `./gradlew jar` para gerar o artefato
+3. Pra executar o docker, utilizar o comando `sudo start-docker.sh`
+
+##### docker-compose.yml
+Neste arquivo é possível perceber que foram mapeados 4 volumes para os taskmanager:<br/>
+`- ${IN_DIR}:/tmp/in` : diretório onde os arquivos ficaram sendo monitorados;<br/>
+`- ${OUT_DIR}:/tmp/out` : diretório onde os relatórios serão reportados<br/>
+`- ./build/libs:/opt/flink/usrlib` : diretório onde se encontra o artefato .jar<br/>
+`- ./docker/init:/tmp/init` : diretório que contém o `docker-entrypoint.sh` customizado que irá dar permissão de escrita e leitura para os diretórios de entrada e saída de arquivos dentro do container após sua inicialização.
+
+## Mode Desenvolvimento
+1. IDE utilizada: IntelliJ IDEA Community
+2. Configurar no arquivo `resources/application.conf` os caminhos para os diretórios de entrada e saída de arquivos, propriedades:<br/>
+- `filePath`: colocar o caminho para o diretório que receberá os arquivos de entrada
+- `filePathOut`:  colocar o caminho para o diretório que receberá os arquivos de saída (relatórios)
